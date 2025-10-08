@@ -1,21 +1,99 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.practice </groupId>
-  <artifactId>maven_exam</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>maven_exam Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <build>
-    <finalName>maven_exam</finalName>
-  </build>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.practice</groupId>
+    <artifactId>maven_exam</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+
+    <name>maven_exam</name>
+
+    <!-- Dependencies -->
+    <dependencies>
+        <!-- JUnit for testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Jakarta Servlet API for Tomcat 10 -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Optional: JSP support (if you have .jsp pages) -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>maven_exam</finalName>
+
+        <plugins>
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+
+            <!-- WAR Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <!-- Cargo Plugin for Tomcat 10 Deployment -->
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.10.5</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat10x</containerId>
+                        <type>remote</type>
+                    </container>
+                    <configuration>
+                        <type>runtime</type>
+                        <properties>
+                            <cargo.remote.username>admin</cargo.remote.username>
+                            <cargo.remote.password>admin123</cargo.remote.password>
+                            <cargo.remote.uri>http://localhost:8080/manager/text</cargo.remote.uri>
+                        </properties>
+                    </configuration>
+                    <deployables>
+                        <deployable>
+                            <groupId>com.practice</groupId>
+                            <artifactId>maven_exam</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>/maven_exam</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
